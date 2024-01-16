@@ -1,0 +1,6 @@
+@use "../../styles-lib" as *;
+
+body::before {
+    width: rem-calc(16px);
+    height: unit-strip(16px);
+}

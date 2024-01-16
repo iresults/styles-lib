@@ -1,0 +1,12 @@
+@use "sass:math";
+@use "unit";
+
+/// Convert the pixel size into a rem value
+///
+/// @param {Number} $size   - Size in pixel
+/// @return {Number}        - Relative pixel size in rem
+@function rem-calc($size) {
+    $rem-size: math.div(unit.strip($size), 16);
+
+    @return $rem-size * 1rem;
+}

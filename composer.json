@@ -1,0 +1,19 @@
+{
+  "name": "iresults/styles-lib",
+  "description": "Sass library with utilities",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Andreas Thurnheer-Meier",
+      "email": "tma@iresults.li",
+      "homepage": "https://www.iresults.li/"
+    },
+    {
+      "name": "Daniel Corn",
+      "email": "cod@iresults.li",
+      "homepage": "https://www.iresults.li"
+    }
+  ],
+  "require": {}
+}
