@@ -1,5 +1,4 @@
 @use "../../styles-lib" as lib;
-
 @include lib.configure(
     (
         xs: 0,
@@ -24,9 +23,8 @@
         gap: 1rem,
     )
 );
-
-@include lib.debug-grid();
-@include lib.debug-screen-breakpoints();
+@include lib.debug-grid;
+@include lib.debug-screen-breakpoints;
 
 body::before {
     width: lib.rem-calc(16px);
@@ -34,7 +32,7 @@ body::before {
 }
 
 .container {
-    @include lib.container-apply-widths();
+    @include lib.container-apply-widths;
 }
 
 .container-with-extra {

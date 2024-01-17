@@ -25,13 +25,9 @@
     html::after {
         content: "";
         position: fixed;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
+        inset: 0;
         text-align: center;
         width: 100vw;
-
         margin: 0 auto;
         z-index: 10000;
         display: block;
@@ -55,7 +51,7 @@
         $offset: math.div(100%, $debug-grid-columns) * 1;
 
         // stylelint-disable indentation
-        @if $style ==fill {
+        @if $style == "fill" {
             background: repeating-linear-gradient(
                 to right,
                 $gutter-color 0,
@@ -81,11 +77,10 @@
                 /// ␣  <ggh>
                 transparent
                     1px,
-                transparent $ggh - 1px,
+                transparent ($ggh - 1px),
                 /// ␣  <ggh>  |
                 $gutter-color
-                    $ggh -
-                    1px,
+                    ($ggh - 1px),
                 $gutter-color $ggh,
                 /// ␣  <ggh>  |   <column>
                 $column-color
@@ -110,7 +105,7 @@
 
         // stylelint-enable
 
-        @include container.apply-widths();
+        @include container.apply-widths;
     }
 }
 
@@ -132,24 +127,24 @@
         letter-spacing: normal;
         line-height: normal;
         top: 0;
-
         color: #555;
         padding: 10px;
         display: block;
-        background: rgba(white, 0.5);
+        background: rgb(255 255 255 / 50%);
         position: fixed;
         right: 0;
         pointer-events: none;
 
         $smallest-label: if(
-            map-has-key($container-max-widths, "xs"),
+            map.has-key($container-max-widths, "xs"),
             "XXS",
             "XS"
         );
+
         content: "#{$smallest-label} | [100%] < #{max-screen('xs')}";
 
         @each $screen, $max-width in $container-max-widths {
-            @media (min-width: map-get($grid-breakpoints, $screen)) {
+            @media (min-width: map.get($grid-breakpoints, $screen)) {
                 content: "#{to-upper-case($screen)} | #{map-get($grid-breakpoints, $screen)} < [#{$max-width}] < #{max-screen($screen)} ";
             }
         }

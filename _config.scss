@@ -1,5 +1,6 @@
 @use "sass:map";
 @use "mixins/assert" as assert;
+
 $internal-screen-breakpoints: ();
 $internal-container-max-widths: ();
 $internal-grid-configuration: ();
@@ -11,6 +12,7 @@ $internal-grid-configuration: ();
 ) {
     @include assert.ascending($screen-breakpoints, "$grid-breakpoints");
     @include assert.starts-at-zero($screen-breakpoints, "$grid-breakpoints");
+
     $internal-screen-breakpoints: $screen-breakpoints !global;
     $internal-container-max-widths: $container-max-widths !global;
 

@@ -19,7 +19,7 @@
                     $name
                 );
 
-                @if $extra !=null {
+                @if $extra {
                     width: calc($max-width + $extra);
                 } @else {
                     width: $max-width;
