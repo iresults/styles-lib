@@ -1,4 +1,4 @@
-# iresults/styles-screen
+# iresults/styles-lib
 
 Sass library with utilities
 
