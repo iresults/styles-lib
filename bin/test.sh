@@ -10,7 +10,7 @@ cd "$PROJECT_DIR" || exit 2
 
 output_path=$(mktemp)
 
-sass --no-source-map tests/test.scss "$output_path"
+sass --no-source-map --no-error-css tests/test.scss "$output_path"
 
 if cmp -s "tests/expected.css" "$output_path"; then
     rm "$output_path"
@@ -18,11 +18,11 @@ if cmp -s "tests/expected.css" "$output_path"; then
     echo "[OK]"
     exit 0
 else
-    rm "$output_path"
+    if [ -f "$output_path" ]; then
+        git --no-pager diff --no-index -- "tests/expected.css" "$output_path"
+        rm "$output_path"
+    fi
 
     echo "[FAILED]"
-    if [ -f "$output_path" ]; then
-        git diff --no-index -- "tests/expected.css" "$output_path"
-    fi
     exit 1
 fi
