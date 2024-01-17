@@ -22,7 +22,12 @@
     @include assert.is-configured(config.$internal-screen-breakpoints);
     @include assert.is-configured(config.$internal-container-max-widths);
 
-    html::after {
+    $selector: &;
+    @if not & {
+        $selector: "html::after";
+    }
+
+    @at-root #{$selector} {
         content: "";
         position: fixed;
         inset: 0;
