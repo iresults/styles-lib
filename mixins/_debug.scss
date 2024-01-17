@@ -1,0 +1,157 @@
+@use "sass:map";
+@use "sass:math";
+@use "../config" as config;
+@use "assert";
+@use "container";
+
+/// Show the grid as overlay
+///
+/// @param {Color}  $column-color       [transparent]           - Color of the columns
+/// @param {Color}  $gutter-color       [rgba(red, .1)]         - Color of the gutter
+/// @param {String} $style              [fill]                  - Define the style (fill, stroke)
+/// @param {Number} $debug-grid-columns [$grid-columns]         - Manually specify the number of columns to display
+/// @param {Length} $debug-gutter-width [$grid-gutter-width]    - Manually specify the grid-gutter-width
+/// @group debug
+@mixin grid(
+    $column-color: transparent,
+    $gutter-color: rgba(red, 0.1),
+    $style: fill,
+    $debug-grid-columns: auto,
+    $debug-gutter-width: auto
+) {
+    @include assert.is-configured(config.$internal-screen-breakpoints);
+    @include assert.is-configured(config.$internal-container-max-widths);
+
+    html::after {
+        content: "";
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        text-align: center;
+        width: 100vw;
+
+        margin: 0 auto;
+        z-index: 10000;
+        display: block;
+        pointer-events: none;
+
+        @if $debug-grid-columns == "auto" {
+            $debug-grid-columns: map.get(
+                config.$internal-grid-configuration,
+                columns
+            );
+        }
+
+        @if $debug-gutter-width == "auto" {
+            $debug-gutter-width: map.get(
+                config.$internal-grid-configuration,
+                gap
+            );
+        }
+
+        $ggh: $debug-gutter-width * 0.5;
+        $offset: math.div(100%, $debug-grid-columns) * 1;
+
+        // stylelint-disable indentation
+        @if $style ==fill {
+            background: repeating-linear-gradient(
+                to right,
+                $gutter-color 0,
+                $gutter-color $ggh,
+                $column-color $ggh,
+                $column-color calc(#{$offset} - #{$ggh}),
+                $gutter-color calc(#{$offset} - #{$ggh}),
+                $gutter-color calc(#{$offset})
+            );
+        } @else if $style == "stroke" {
+            /// As a simple example: a grid with only 2 columns:
+            ///
+            /// ␣  <ggh>  |   <column>   |  <ggh>  ␣␣  <ggh>  |   <column>   |  <ggh>  ␣␣  <ggh>  |
+            /// ␣         |              |   <gutter-width>   |              |         ␣␣         |
+            /// ␣         |              |         ␣␣         |              |         ␣␣         |
+            /// ␣ <-  this pattern is repeated  -> ␣
+            background: repeating-linear-gradient(
+                to right,
+                /// ␣
+                transparent
+                    0,
+                transparent 1px,
+                /// ␣  <ggh>
+                transparent
+                    1px,
+                transparent $ggh - 1px,
+                /// ␣  <ggh>  |
+                $gutter-color
+                    $ggh -
+                    1px,
+                $gutter-color $ggh,
+                /// ␣  <ggh>  |   <column>
+                $column-color
+                    $ggh,
+                $column-color calc(#{$offset} - #{$ggh}),
+                /// ␣  <ggh>  |   <column>   |
+                $gutter-color
+                    calc(#{$offset} - #{$ggh}),
+                $gutter-color calc(#{$offset} - #{$ggh} + 1px),
+                /// ␣  <ggh>  |   <column>   |  <ggh>
+                transparent
+                    calc(#{$offset} - #{$ggh} + 1px),
+                transparent calc(#{$offset} - 1px),
+                /// ␣  <ggh>  |   <column>   |  <ggh>  ␣
+                transparent
+                    calc(#{$offset} - 1px),
+                transparent calc(#{$offset})
+            );
+        } @else {
+            @error "Invalid style: #{$style}";
+        }
+
+        // stylelint-enable
+
+        @include container.apply-widths();
+    }
+}
+
+/// Show information about the current screen breakpoints
+/// @group debug
+@mixin screen-breakpoints {
+    @include assert.is-configured(config.$internal-screen-breakpoints);
+
+    body::after {
+        $grid-breakpoints: config.$internal-screen-breakpoints;
+        $container-max-widths: config.$internal-container-max-widths;
+
+        z-index: 10000;
+        font-family: Menlo, "Courier New", Courier, monospace;
+        font-size: 9px;
+        font-weight: normal;
+        font-style: normal;
+        text-transform: none;
+        letter-spacing: normal;
+        line-height: normal;
+        top: 0;
+
+        color: #555;
+        padding: 10px;
+        display: block;
+        background: rgba(white, 0.5);
+        position: fixed;
+        right: 0;
+        pointer-events: none;
+
+        $smallest-label: if(
+            map-has-key($container-max-widths, "xs"),
+            "XXS",
+            "XS"
+        );
+        content: "#{$smallest-label} | [100%] < #{max-screen('xs')}";
+
+        @each $screen, $max-width in $container-max-widths {
+            @media (min-width: map-get($grid-breakpoints, $screen)) {
+                content: "#{to-upper-case($screen)} | #{map-get($grid-breakpoints, $screen)} < [#{$max-width}] < #{max-screen($screen)} ";
+            }
+        }
+    }
+}

@@ -1,0 +1,44 @@
+/// Used to evaluate Sass maps like our grid breakpoints.
+///
+/// @link https://github.com/twbs/bootstrap/blob/958b610cfa0cfb888c14f48fb0dc8eafc8a99014/scss/_functions.scss#L7
+/// @param {Map} $map
+/// @param {String} $map-name
+@mixin ascending($map, $map-name) {
+    $prev-key: null;
+    $prev-num: null;
+
+    @each $key, $num in $map {
+        @if $prev-num ==null or unit($num) == "%" or unit($prev-num) == "%" {
+            // Do nothing
+        } @else if not comparable($prev-num, $num) {
+            @warn "Potentially invalid value for #{$map-name}: This map must be in ascending order, but key '#{$key}' has value #{$num} whose unit makes it incomparable to #{$prev-num}, the value of the previous key '#{$prev-key}' !";
+        } @else if $prev-num >=$num {
+            @warn "Invalid value for #{$map-name}: This map must be in ascending order, but key '#{$key}' has value #{$num} which isn't greater than #{$prev-num}, the value of the previous key '#{$prev-key}' !";
+        }
+
+        $prev-key: $key;
+        $prev-num: $num;
+    }
+}
+
+/// Used to ensure the min-width of the lowest breakpoint starts at 0.
+///
+/// @link https://github.com/twbs/bootstrap/blob/958b610cfa0cfb888c14f48fb0dc8eafc8a99014/scss/_functions.scss#L7
+/// @param {Map} $map
+/// @param {String} $map-name
+@mixin starts-at-zero($map, $map-name) {
+    @if length($map) >0 {
+        $values: map-values($map);
+        $first-value: nth($values, 1);
+
+        @if $first-value !=0 {
+            @warn "First breakpoint in #{$map-name} must start at 0, but starts at #{$first-value}.";
+        }
+    }
+}
+
+@mixin is-configured($internal-screen-breakpoints) {
+    @if length($internal-screen-breakpoints) ==0 {
+        @error "Screen breakpoints are not configured yet";
+    }
+}

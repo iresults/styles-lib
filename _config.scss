@@ -1,0 +1,26 @@
+@use "sass:map";
+@use "mixins/assert" as assert;
+$internal-screen-breakpoints: ();
+$internal-container-max-widths: ();
+$internal-grid-configuration: ();
+
+@mixin configure(
+    $screen-breakpoints,
+    $container-max-widths,
+    $grid-configuration
+) {
+    @include assert.ascending($screen-breakpoints, "$grid-breakpoints");
+    @include assert.starts-at-zero($screen-breakpoints, "$grid-breakpoints");
+    $internal-screen-breakpoints: $screen-breakpoints !global;
+    $internal-container-max-widths: $container-max-widths !global;
+
+    @if not map.has-key($grid-configuration, "columns") {
+        @error "Missing `columns` in grid-configuration";
+    }
+
+    @if not map.has-key($grid-configuration, "gap") {
+        @error "Missing `gap` in grid-configuration";
+    }
+
+    $internal-grid-configuration: $grid-configuration !global;
+}
