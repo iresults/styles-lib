@@ -1,6 +1,6 @@
 @use "sass:map";
 @use "sass:math";
-@use "../config" as config;
+@use "config" as config;
 @use "assert";
 @use "container";
 
@@ -23,6 +23,7 @@
     @include assert.is-configured(config.$internal-container-max-widths);
 
     $selector: &;
+
     @if not & {
         $selector: "html::after";
     }

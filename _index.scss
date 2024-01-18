@@ -1,7 +1,7 @@
 @forward "config" show configure;
-@forward "functions/converter";
-@forward "functions/unit" as unit-*;
-@forward "mixins/container" as container-*;
-@forward "mixins/screen" as screen-*;
-@forward "mixins/screen/utility" as screen-utility-*;
-@forward "mixins/debug" as debug-*;
+@forward "converter";
+@forward "unit" as unit-*;
+@forward "container" as container-*;
+@forward "screen" as screen-*;
+@forward "screen/utility" as screen-utility-*;
+@forward "debug" as debug-*;

@@ -51,16 +51,16 @@ body {
 
 // region Test screen module
 body::before {
-    @include lib.screen-screen(xs, sm) {
-        content: "lib.screen-screen(xs, sm)";
+    @include lib.screen-match(xs, sm) {
+        content: "lib.screen-match(xs, sm)";
     }
 
-    @include lib.screen-screen(xs, none) {
-        content: "lib.screen-screen(xs, none)";
+    @include lib.screen-match(xs, none) {
+        content: "lib.screen-match(xs, none)";
     }
 
-    @include lib.screen-screen(xs) {
-        content: "lib.screen-screen(xs)";
+    @include lib.screen-match(xs) {
+        content: "lib.screen-match(xs)";
     }
 
     @include lib.screen-max(xs) {

@@ -1,29 +1,49 @@
-@use "../config" as config;
-@use "../functions/screen" as screen-function;
+// Some of the following responsive mixins are taken from Rafal Bromirski (http://paranoida.com/)
+@use "sass:map";
+@use "sass:list";
+@use "config" as config;
 @use "assert";
 
-// Some of the following responsive mixins are taken from Rafal Bromirski (http://paranoida.com/)
+////
+/// Responsive helpers
+/// @group media query
+
+/// Returns the min screen width for the given screen size
+///
+/// @param {String} $screen-size
+/// @return {Length} Returns the lower bound for the given screen
+@function min($screen-size) {
+    @return -internal-min($screen-size);
+}
+
+/// Returns the max screen width for the given screen size
+///
+/// @param {String} $screen-size
+/// @return {Length} Returns the upper bound for the given screen
+@function max($screen-size) {
+    @return -internal-max($screen-size);
+}
 
 /// Apply the styles for screens with a minimum width of $res-min and a maximum width of $res-max
 ///
 /// This mixin can also be called with only one argument which then must be a screen-size keyword
 ///
 /// @example scss - Usage with concrete min and max values
-///     @include screen(100px, 200px) { /* styles */ }
+///     @include lib.screen-match(100px, 200px) { /* styles */ }
 ///     // @media screen and (min-width: 100px) and (max-width: 200px) { /* styles */ }
 ///
 /// @example scss - Usage with min and max value keywords
-///     @include screen(xs, sm) { /* styles */ }
-///     // @media screen and (min-width: #{screen-function.max('xs')) and (max-width: #{screen-function.max('sm')) { /* styles *}/ }
+///     @include lib.screen-match(xs, sm) { /* styles */ }
+///     // @media screen and (min-width: -internal-max('xs')) and (max-width: -internal-max('sm')) { /* styles *}/ }
 ///
 /// @example scss - Usage with only one keyword
-///     @include screen(xs) { /* styles */ }
-///     // @media screen and (min-width: #{screen-function.min('xs')) and (max-width: #{screen-function.max('xs')) { /* styles *}/ }
+///     @include lib.screen-match(xs) { /* styles */ }
+///     // @media screen and (min-width: -internal-min('xs')) and (max-width: -internal-max('xs')) { /* styles *}/ }
 ///
 /// @param {Length|String} $res-min The min width as value or one of the screen-size keywords
 /// @param {Length|String} $res-max The max width as value or one of the screen-size keywords
 /// @content Wrapped into media query
-@mixin screen($res-min, $res-max: none) {
+@mixin match($res-min, $res-max: none) {
     @include assert.is-configured(config.$internal-screen-breakpoints);
 
     $concrete-res-min: 0;
@@ -34,19 +54,19 @@
             @error "If $res-max is not given $res-min must be a screen-size keyword (e.g. 'sm')";
         }
 
-        $concrete-res-min: screen-function.min($res-min);
-        $concrete-res-max: screen-function.max($res-min);
+        $concrete-res-min: -internal-min($res-min);
+        $concrete-res-max: -internal-max($res-min);
     } @else {
         @if type-of($res-min) == number {
             $concrete-res-min: $res-min;
         } @else {
-            $concrete-res-min: screen-function.min($res-min);
+            $concrete-res-min: -internal-min($res-min);
         }
 
         @if type-of($res-max) == number {
             $concrete-res-max: $res-max;
         } @else {
-            $concrete-res-max: screen-function.max($res-max);
+            $concrete-res-max: -internal-max($res-max);
         }
     }
 
@@ -66,7 +86,7 @@
     $concrete-res: $res;
 
     @if type-of($res) != number {
-        $concrete-res: screen-function.max($res);
+        $concrete-res: -internal-max($res);
     }
 
     @media screen and (max-width: $concrete-res) {
@@ -78,7 +98,7 @@
 ///
 /// @content Wrapped into media query
 @mixin max-xs() {
-    @media screen and (max-width: #{screen-function.max(xs)}) {
+    @media screen and (max-width: -internal-max(xs)) {
         @content;
     }
 }
@@ -87,7 +107,7 @@
 ///
 /// @content Wrapped into media query
 @mixin max-sm() {
-    @media screen and (max-width: #{screen-function.max(sm)}) {
+    @media screen and (max-width: -internal-max(sm)) {
         @content;
     }
 }
@@ -96,7 +116,7 @@
 ///
 /// @content Wrapped into media query
 @mixin max-md() {
-    @media screen and (max-width: #{screen-function.max(md)}) {
+    @media screen and (max-width: -internal-max(md)) {
         @content;
     }
 }
@@ -105,7 +125,7 @@
 ///
 /// @content Wrapped into media query
 @mixin max-lg() {
-    @media screen and (max-width: #{screen-function.max(lg)}) {
+    @media screen and (max-width: -internal-max(lg)) {
         @content;
     }
 }
@@ -120,7 +140,7 @@
     $concrete-res: $res;
 
     @if type-of($res) != number {
-        $concrete-res: screen-function.min($res);
+        $concrete-res: -internal-min($res);
 
         @if not $concrete-res {
             $concrete-res: 0;
@@ -136,7 +156,7 @@
 ///
 /// @content Wrapped into media query
 @mixin min-xs() {
-    @media screen and (min-width: #{screen-function.min(xs)}) {
+    @media screen and (min-width: -internal-min(xs)) {
         @content;
     }
 }
@@ -145,7 +165,7 @@
 ///
 /// @content Wrapped into media query
 @mixin min-sm() {
-    @media screen and (min-width: #{screen-function.min(sm)}) {
+    @media screen and (min-width: -internal-min(sm)) {
         @content;
     }
 }
@@ -154,7 +174,7 @@
 ///
 /// @content Wrapped into media query
 @mixin min-md() {
-    @media screen and (min-width: #{screen-function.min(md)}) {
+    @media screen and (min-width: -internal-min(md)) {
         @content;
     }
 }
@@ -163,7 +183,7 @@
 ///
 /// @content Wrapped into media query
 @mixin min-lg() {
-    @media screen and (min-width: #{screen-function.min(lg)}) {
+    @media screen and (min-width: -internal-min(lg)) {
         @content;
     }
 }
@@ -172,7 +192,7 @@
 ///
 /// @content Wrapped into media query
 @mixin min-xl() {
-    @media screen and (min-width: #{screen-function.min(xl)}) {
+    @media screen and (min-width: -internal-min(xl)) {
         @content;
     }
 }
@@ -224,4 +244,70 @@
         @content;
     }
     // stylelint-enable
+}
+
+/// Returns the next screen breakpoint after the $screen-size
+///
+/// @link https://github.com/twbs/bootstrap/blob/958b610cfa0cfb888c14f48fb0dc8eafc8a99014/scss/mixins/_breakpoints.scss#L4
+/// @param {String} $screen-size
+/// @return {String}
+/// @access private
+@function -next($screen-size) {
+    $breakpoint-names: map.keys(config.$internal-screen-breakpoints);
+    $n: list.index($breakpoint-names, $screen-size);
+
+    @if not $n {
+        @error "Screen breakpoint `#{$screen-size}` not found in grid-breakpoints";
+    }
+
+    @return if(
+        $n < length($breakpoint-names),
+        list.nth($breakpoint-names, $n + 1),
+        null
+    );
+}
+
+/// Private version of the function to allow to call it from within this module
+/// @see min()
+/// @access private
+@function -internal-min($screen-size) {
+    @if map.has-key(config.$internal-screen-breakpoints, $screen-size) {
+        @return map.get(config.$internal-screen-breakpoints, $screen-size);
+    }
+
+    @if $screen-size == "xxs" {
+        @return 0;
+    } @else {
+        @error "Could not detect minimum width for screen size #{$screen-size}";
+    }
+}
+
+/// Private version of the function to allow to call it from within this module
+/// @see max()
+/// @access private
+@function -internal-max($screen-size) {
+    $next-screen-size: -next($screen-size);
+
+    @if $next-screen-size {
+        @return -internal-min($next-screen-size) - 0.02;
+    }
+
+    $last-registered-screen: list.nth(
+        map.keys($internal-screen-breakpoints),
+        -1
+    );
+
+    @if $screen-size == $last-registered-screen {
+        @return 1000000px;
+    }
+
+    @if $screen-size == "xxs" {
+        @if map.has-key($internal-screen-breakpoints, "xs") > 0 {
+            @return map.get($internal-screen-breakpoints, "xs") - 0.02;
+        } @else {
+            @return 0;
+        }
+    }
+
+    @error "Could not detect maximum width for screen size #{$screen-size}";
 }

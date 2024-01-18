@@ -187,17 +187,17 @@ body {
 
 @media screen and (min-width: 0) and (max-width: 209.98px) {
   body::before {
-    content: "lib.screen-screen(xs, sm)";
+    content: "lib.screen-match(xs, sm)";
   }
 }
 @media screen and (min-width: 0) and (max-width: 109.98px) {
   body::before {
-    content: "lib.screen-screen(xs, none)";
+    content: "lib.screen-match(xs, none)";
   }
 }
 @media screen and (min-width: 0) and (max-width: 109.98px) {
   body::before {
-    content: "lib.screen-screen(xs)";
+    content: "lib.screen-match(xs)";
   }
 }
 @media screen and (max-width: 109.98px) {

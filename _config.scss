@@ -1,5 +1,5 @@
 @use "sass:map";
-@use "mixins/assert" as assert;
+@use "assert" as assert;
 
 $internal-screen-breakpoints: ();
 $internal-container-max-widths: ();

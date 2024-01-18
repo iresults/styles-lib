@@ -7,7 +7,7 @@
 ///
 /// @example scss - Usage with concrete min and max values
 ///     .element {
-///         @include screen.utility-apply-properties-for-screens(bottom, (
+///         @include lib.screen-utility-apply-properties-for-screens(bottom, (
 ///             xs: $std-padding,
 ///             sm: $std-padding + 1,
 ///             md: 2 * $std-padding,
@@ -18,7 +18,7 @@
 ///
 /// @example scss - Usage with a list of property names
 ///     .element {
-///        @include screen.utility-apply-properties-for-screens((width, height), (
+///        @include lib.screen-utility-apply-properties-for-screens((width, height), (
 /////             xs: $std-padding,
 /////             sm: $std-padding + 1,
 /////             md: 2 * $std-padding,
@@ -29,7 +29,7 @@
 ///
 /// @example scss - Usage with $reverse
 ///     .anchor {
-///         @include screen.utility-apply-properties-for-screens(margin-top, $header-heights, true);
+///         @include lib.screen-utility-apply-properties-for-screens(margin-top, $header-heights, true);
 ///     }
 ///
 /// @param {String} $property-name  CSS property to set
@@ -49,7 +49,7 @@
     }
 
     @each $screen, $value in $properties {
-        @include screen.screen($screen) {
+        @include screen.match($screen) {
             @if $reverse == true {
                 $value: -1 * $value;
             }
@@ -66,7 +66,7 @@
 ///
 /// @example scss - Usage with concrete min and max values
 ///     .element {
-///         @include screen.utility-apply-properties-for-min-screens(bottom, (
+///         @include lib.screen-utility-apply-properties-for-min-screens(bottom, (
 ///             xs: $std-padding,
 ///             md: 2 * $std-padding,
 ///         ));
@@ -74,7 +74,7 @@
 ///
 /// @example scss - Usage with a list of property names
 ///     .element {
-///         @include screen.utility-apply-properties-for-min-screens((width, height), (
+///         @include lib.screen-utility-apply-properties-for-min-screens((width, height), (
 ///             xs: $std-padding,
 ///             md: 2 * $std-padding,
 ///         ));
@@ -82,7 +82,7 @@
 ///
 /// @example scss - Usage with $reverse
 ///     .anchor {
-///         @include screen.utility-apply-properties-for-min-screens(margin-top, $header-heights, true);
+///         @include lib.screen-utility-apply-properties-for-min-screens(margin-top, $header-heights, true);
 ///     }
 ///
 /// @param {String} $property-name  CSS property to set
