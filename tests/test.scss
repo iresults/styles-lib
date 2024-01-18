@@ -69,6 +69,10 @@ body::before {
         content: "lib.screen-max(xs)";
     }
 
+    @include lib.screen-max(xxxl) {
+        content: "lib.screen-max(xxxl)";
+    }
+
     @include lib.screen-max-xs {
         content: "lib.screen-max-xs()";
     }
@@ -87,6 +91,10 @@ body::before {
 
     @include lib.screen-min(sm) {
         content: "lib.screen-min(sm)";
+    }
+
+    @include lib.screen-min(xxxl) {
+        content: "lib.screen-min(xxxl)";
     }
 
     @include lib.screen-min-xs {

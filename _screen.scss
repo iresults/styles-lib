@@ -1,7 +1,7 @@
 // Some of the following responsive mixins are taken from Rafal Bromirski (http://paranoida.com/)
 @use "sass:map";
 @use "sass:list";
-@use "config" as config;
+@use "config";
 @use "assert";
 
 ////
@@ -293,7 +293,7 @@
     }
 
     $last-registered-screen: list.nth(
-        map.keys($internal-screen-breakpoints),
+        map.keys(config.$internal-screen-breakpoints),
         -1
     );
 
@@ -302,8 +302,8 @@
     }
 
     @if $screen-size == "xxs" {
-        @if map.has-key($internal-screen-breakpoints, "xs") > 0 {
-            @return map.get($internal-screen-breakpoints, "xs") - 0.02;
+        @if map.has-key(config.$internal-screen-breakpoints, "xs") > 0 {
+            @return map.get(config.$internal-screen-breakpoints, "xs") - 0.02;
         } @else {
             @return 0;
         }
