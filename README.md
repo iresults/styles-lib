@@ -68,3 +68,59 @@ body::before {
     @include lib.container-apply-widths(20px);
 }
 ```
+
+### Media-query mixins
+
+```scss
+@include lib.configure(/* ... */);
+
+body {
+    font-size: 16px;
+
+    // Screen width `sm` and above
+    @include lib.screen-min(sm) {
+        font-size: 18px;
+    }
+
+    // Up to and including `lg` screen
+    @include lib.screen-max(lg) {
+        font-size: 24px;
+    }
+
+    // Same as `@include lib.screen-max(lg)`
+    @include lib.screen-max-lg() {
+        font-size: 24px;
+    }
+
+    // Only for `md` screen
+    @include lib.screen-screen(md) {
+        font-size: 22px;
+    }
+}
+```
+
+### `apply` utilities
+
+```scss
+@include lib.configure(/* ... */);
+
+.element {
+    // Set the `width` for the given screen only (100% width for `xs` and 80% for `sm`)
+    @include lib.screen-utility-apply-properties-for-screens(
+        width,
+        (
+            xs: 100%,
+            sm: 80%,
+        )
+    );
+
+    // Set the `width` for the given screen and above (100% width for `xs` and 80% for `sm`, `md`, …)
+    @include lib.screen-utility-apply-properties-for-min-screens(
+        width,
+        (
+            xs: 100%,
+            sm: 80%,
+        )
+    );
+}
+```

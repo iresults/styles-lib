@@ -1,0 +1,117 @@
+@use "../screen";
+
+/// Loop through `$properties` and set the property's value for each screen size
+///
+/// The behaviour is like the one of `screen.utility-apply-properties-for-min-screens()`
+/// but uses `screen()` instead of `min-screen()`
+///
+/// @example scss - Usage with concrete min and max values
+///     .element {
+///         @include screen.utility-apply-properties-for-screens(bottom, (
+///             xs: $std-padding,
+///             sm: $std-padding + 1,
+///             md: 2 * $std-padding,
+///             lg: 4.5 * $std-padding,
+///             xl: 4.5 * $std-padding,
+///         ));
+///     }
+///
+/// @example scss - Usage with a list of property names
+///     .element {
+///        @include screen.utility-apply-properties-for-screens((width, height), (
+/////             xs: $std-padding,
+/////             sm: $std-padding + 1,
+/////             md: 2 * $std-padding,
+/////             lg: 4.5 * $std-padding,
+/////             xl: 4.5 * $std-padding,
+/////         ));
+///     }
+///
+/// @example scss - Usage with $reverse
+///     .anchor {
+///         @include screen.utility-apply-properties-for-screens(margin-top, $header-heights, true);
+///     }
+///
+/// @param {String} $property-name  CSS property to set
+/// @param {Map}    $properties     A map of screen-size keywords to properties
+/// @param {Bool}   $reverse        If TRUE, multiply the value with -1
+@mixin apply-properties-for-screens(
+    $property-name,
+    $properties,
+    $reverse: false
+) {
+    @if type-of($property-name) != string {
+        @error "Expected argument $property-name to be a string. '#{type-of($property-name)}' given";
+    }
+
+    @if type-of($properties) != map {
+        @error "Expected argument $properties to be a map. '#{type-of($properties)}' given";
+    }
+
+    @each $screen, $value in $properties {
+        @include screen.screen($screen) {
+            @if $reverse == true {
+                $value: -1 * $value;
+            }
+
+            #{$property-name}: $value;
+        }
+    }
+}
+
+/// Loop through `$properties` and set the property's value for each screen size and up
+///
+/// The behaviour is like the one of `screen.utility-apply-properties-for-screens()`
+/// but uses `min-screen()` instead of `screen()`
+///
+/// @example scss - Usage with concrete min and max values
+///     .element {
+///         @include screen.utility-apply-properties-for-min-screens(bottom, (
+///             xs: $std-padding,
+///             md: 2 * $std-padding,
+///         ));
+///     }
+///
+/// @example scss - Usage with a list of property names
+///     .element {
+///         @include screen.utility-apply-properties-for-min-screens((width, height), (
+///             xs: $std-padding,
+///             md: 2 * $std-padding,
+///         ));
+///     }
+///
+/// @example scss - Usage with $reverse
+///     .anchor {
+///         @include screen.utility-apply-properties-for-min-screens(margin-top, $header-heights, true);
+///     }
+///
+/// @param {String} $property-name  CSS property to set
+/// @param {Map}    $properties     A map of minimum screen-size keywords to properties
+/// @param {Bool}   $reverse        If TRUE, multiply the value with -1
+@mixin apply-properties-for-min-screens(
+    $property-name,
+    $properties,
+    $reverse: false
+) {
+    @if type-of($property-name) != string and type-of($property-name) != list {
+        @error "Expected argument $property-name to be a string. '#{type-of($property-name)}' given";
+    }
+
+    @if type-of($properties) != map {
+        @error "Expected argument $properties to be a map. '#{type-of($properties)}' given";
+    }
+
+    @each $screen, $value in $properties {
+        @include screen.min($screen) {
+            @if $reverse == true {
+                $value: -1 * $value;
+            }
+
+            $property-name-list: $property-name;
+
+            @each $property-key in $property-name-list {
+                #{$property-key}: $value;
+            }
+        }
+    }
+}

@@ -1,0 +1,227 @@
+@use "../config" as config;
+@use "../functions/screen" as screen-function;
+@use "assert";
+
+// Some of the following responsive mixins are taken from Rafal Bromirski (http://paranoida.com/)
+
+/// Apply the styles for screens with a minimum width of $res-min and a maximum width of $res-max
+///
+/// This mixin can also be called with only one argument which then must be a screen-size keyword
+///
+/// @example scss - Usage with concrete min and max values
+///     @include screen(100px, 200px) { /* styles */ }
+///     // @media screen and (min-width: 100px) and (max-width: 200px) { /* styles */ }
+///
+/// @example scss - Usage with min and max value keywords
+///     @include screen(xs, sm) { /* styles */ }
+///     // @media screen and (min-width: #{screen-function.max('xs')) and (max-width: #{screen-function.max('sm')) { /* styles *}/ }
+///
+/// @example scss - Usage with only one keyword
+///     @include screen(xs) { /* styles */ }
+///     // @media screen and (min-width: #{screen-function.min('xs')) and (max-width: #{screen-function.max('xs')) { /* styles *}/ }
+///
+/// @param {Length|String} $res-min The min width as value or one of the screen-size keywords
+/// @param {Length|String} $res-max The max width as value or one of the screen-size keywords
+/// @content Wrapped into media query
+@mixin screen($res-min, $res-max: none) {
+    @include assert.is-configured(config.$internal-screen-breakpoints);
+
+    $concrete-res-min: 0;
+    $concrete-res-max: 0;
+
+    @if $res-max == none {
+        @if type-of($res-min) == number {
+            @error "If $res-max is not given $res-min must be a screen-size keyword (e.g. 'sm')";
+        }
+
+        $concrete-res-min: screen-function.min($res-min);
+        $concrete-res-max: screen-function.max($res-min);
+    } @else {
+        @if type-of($res-min) == number {
+            $concrete-res-min: $res-min;
+        } @else {
+            $concrete-res-min: screen-function.min($res-min);
+        }
+
+        @if type-of($res-max) == number {
+            $concrete-res-max: $res-max;
+        } @else {
+            $concrete-res-max: screen-function.max($res-max);
+        }
+    }
+
+    @media screen and (min-width: $concrete-res-min) and (max-width: $concrete-res-max) {
+        // -iresults-debug: "@media screen and (min-width: #{$concrete-res-min}) and (max-width: #{$concrete-res-max})";
+        @content;
+    }
+}
+
+/// Apply the styles for screens with a maximum width of $res
+///
+/// @param {Length|String} $res The max width as value or one of the screen-size keywords
+/// @content Wrapped into media query
+@mixin max($res) {
+    @include assert.is-configured(config.$internal-screen-breakpoints);
+
+    $concrete-res: $res;
+
+    @if type-of($res) != number {
+        $concrete-res: screen-function.max($res);
+    }
+
+    @media screen and (max-width: $concrete-res) {
+        @content;
+    }
+}
+
+/// Apply the styles for screens with a maximum width of $grid-breakpoints.xs
+///
+/// @content Wrapped into media query
+@mixin max-xs() {
+    @media screen and (max-width: #{screen-function.max(xs)}) {
+        @content;
+    }
+}
+
+/// Apply the styles for screens with a maximum width of $grid-breakpoints.sm
+///
+/// @content Wrapped into media query
+@mixin max-sm() {
+    @media screen and (max-width: #{screen-function.max(sm)}) {
+        @content;
+    }
+}
+
+/// Apply the styles for screens with a maximum width of $grid-breakpoints.md
+///
+/// @content Wrapped into media query
+@mixin max-md() {
+    @media screen and (max-width: #{screen-function.max(md)}) {
+        @content;
+    }
+}
+
+/// Apply the styles for screens with a maximum width of $grid-breakpoints.lg
+///
+/// @content Wrapped into media query
+@mixin max-lg() {
+    @media screen and (max-width: #{screen-function.max(lg)}) {
+        @content;
+    }
+}
+
+/// Apply the styles for screens with a minimum width of $res
+///
+/// @param {Length|String} $res The max width as value or one of the screen-size keywords
+/// @content Wrapped into media query
+@mixin min($res) {
+    @include assert.is-configured(config.$internal-screen-breakpoints);
+
+    $concrete-res: $res;
+
+    @if type-of($res) != number {
+        $concrete-res: screen-function.min($res);
+
+        @if not $concrete-res {
+            $concrete-res: 0;
+        }
+    }
+
+    @media screen and (min-width: $concrete-res) {
+        @content;
+    }
+}
+
+/// Apply the styles for screens with a minimum width of $grid-breakpoints->sm
+///
+/// @content Wrapped into media query
+@mixin min-xs() {
+    @media screen and (min-width: #{screen-function.min(xs)}) {
+        @content;
+    }
+}
+
+/// Apply the styles for screens with a minimum width of $grid-breakpoints->sm
+///
+/// @content Wrapped into media query
+@mixin min-sm() {
+    @media screen and (min-width: #{screen-function.min(sm)}) {
+        @content;
+    }
+}
+
+/// Apply the styles for screens with a minimum width of $grid-breakpoints->md
+///
+/// @content Wrapped into media query
+@mixin min-md() {
+    @media screen and (min-width: #{screen-function.min(md)}) {
+        @content;
+    }
+}
+
+/// Apply the styles for screens with a minimum width of $grid-breakpoints->lg
+///
+/// @content Wrapped into media query
+@mixin min-lg() {
+    @media screen and (min-width: #{screen-function.min(lg)}) {
+        @content;
+    }
+}
+
+/// Apply the styles for screens with a minimum width of $grid-breakpoints->xl
+///
+/// @content Wrapped into media query
+@mixin min-xl() {
+    @media screen and (min-width: #{screen-function.min(xl)}) {
+        @content;
+    }
+}
+
+/// Apply the styles for screens with a minimum height of $res-min and a maximum height of $res-max
+///
+/// @param {Length} $res-min The min height
+/// @param {Length} $res-max The max height
+/// @content Wrapped into media query
+@mixin height($res-min, $res-max) {
+    @media screen and (min-height: $res-min) and (max-height: $res-max) {
+        @content;
+    }
+}
+
+/// Apply the styles for screens with a maximum height of $res-max
+///
+/// @param {Length} $res The max height
+/// @content Wrapped into media query
+@mixin max-height($res) {
+    @media screen and (max-height: $res) {
+        @content;
+    }
+}
+
+/// Apply the styles for screens with a minimum height of $res-min
+///
+/// @param {Length} $res The min height
+/// @content Wrapped into media query
+@mixin min-height($res) {
+    @media screen and (min-height: $res) {
+        @content;
+    }
+}
+
+/// HDPI
+///
+/// Based on bourbon hidpi-media-queries file (https://github.com/thoughtbot/bourbon/blob/master/app/assets/stylesheets/css3/_hidpi-media-query.scss)
+/// HiDPI mixin. Default value set to 1.3 to target Google Nexus 7 (http://bjango.com/articles/min-device-pixel-ratio/)
+///
+/// @content Wrapped into media query
+@mixin hdpi($ratio: 1.3) {
+    // stylelint-disable
+    @media only screen and (-webkit-min-device-pixel-ratio: $ratio),
+    only screen and (min--moz-device-pixel-ratio: $ratio),
+    only screen and (-o-min-device-pixel-ratio: #{$ratio}/1),
+    only screen and (min-resolution: #{round($ratio*96)}dpi),
+    only screen and (min-resolution: #{$ratio}dppx) {
+        @content;
+    }
+    // stylelint-enable
+}
