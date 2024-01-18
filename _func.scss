@@ -1,0 +1,39 @@
+@use "sass:map";
+@use "sass:meta";
+
+/// Invoke $callback for each pair in the map and build a new map from the result
+///
+/// @example scss -
+///     @use "sass:meta";
+///
+///     $input: (
+///         "xs": 100%,
+///         "sm": 200px,
+///         "md": 300px,
+///     );
+///     @function double-the-size($value, $key) {
+///         @return $value * 2;
+///     }
+///     $result: lib.func-map($input, meta.get-function("double-the-size"));
+///
+/// @param {Map} $input
+/// @param {Function} $callback
+/// @return {Map} Return a new map with $callback applied to each element of $input
+@function map($input, $callback) {
+    @if type-of($callback) != "function" {
+        @error "Argument 'callback' must be of type 'function', '" + type-of($callback) + "' given";
+    }
+
+    @if type-of($input) != "map" {
+        @error "Argument 'input' must be of type 'map', '" + type-of($input) + "' given";
+    }
+
+    $result: ();
+
+    @each $key, $value in $input {
+        $mapped-value: meta.call($callback, $value, $key);
+        $result: map.set($result, $key, $mapped-value);
+    }
+
+    @return $result;
+}

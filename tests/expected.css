@@ -68,37 +68,37 @@ body::after {
 }
 @media (min-width: 0) {
   body::after {
-    content: "XS | 0 < [100%] < max-screen(xs) ";
+    content: 'XS | 0 < [100%] < max-screen("xs") ';
   }
 }
 @media (min-width: 110px) {
   body::after {
-    content: "SM | 110px < [100px] < max-screen(sm) ";
+    content: 'SM | 110px < [100px] < max-screen("sm") ';
   }
 }
 @media (min-width: 210px) {
   body::after {
-    content: "MD | 210px < [200px] < max-screen(md) ";
+    content: 'MD | 210px < [200px] < max-screen("md") ';
   }
 }
 @media (min-width: 310px) {
   body::after {
-    content: "LG | 310px < [300px] < max-screen(lg) ";
+    content: 'LG | 310px < [300px] < max-screen("lg") ';
   }
 }
 @media (min-width: 410px) {
   body::after {
-    content: "XL | 410px < [400px] < max-screen(xl) ";
+    content: 'XL | 410px < [400px] < max-screen("xl") ';
   }
 }
 @media (min-width: 510px) {
   body::after {
-    content: "XXL | 510px < [500px] < max-screen(xxl) ";
+    content: 'XXL | 510px < [500px] < max-screen("xxl") ';
   }
 }
 @media (min-width: 610px) {
   body::after {
-    content: "XXXL | 610px < [600px] < max-screen(xxxl) ";
+    content: 'XXXL | 610px < [600px] < max-screen("xxxl") ';
   }
 }
 
@@ -293,5 +293,37 @@ body {
 @media screen and (min-width: 110px) {
   body::before {
     width: 2px;
+  }
+}
+
+@media screen and (min-width: 0) {
+  .mapped-width {
+    width: 200%;
+  }
+}
+@media screen and (min-width: 110px) {
+  .mapped-width {
+    width: 400px;
+  }
+}
+@media screen and (min-width: 210px) {
+  .mapped-width {
+    width: 600px;
+  }
+}
+
+@media screen and (min-width: 0) {
+  .mapped-content {
+    content: "100% @ xs";
+  }
+}
+@media screen and (min-width: 110px) {
+  .mapped-content {
+    content: "200px @ sm";
+  }
+}
+@media screen and (min-width: 210px) {
+  .mapped-content {
+    content: "300px @ md";
   }
 }

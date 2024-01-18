@@ -1,28 +1,30 @@
+@use "sass:meta";
+@use "sass:map";
 @use "../../styles-lib" as lib;
 
 // region Setup
 @include lib.configure(
     (
-        xs: 0,
-        sm: 110px,
-        md: 210px,
-        lg: 310px,
-        xl: 410px,
-        xxl: 510px,
-        xxxl: 610px,
+        "xs": 0,
+        "sm": 110px,
+        "md": 210px,
+        "lg": 310px,
+        "xl": 410px,
+        "xxl": 510px,
+        "xxxl": 610px,
     ),
     (
-        xs: 100%,
-        sm: 100px,
-        md: 200px,
-        lg: 300px,
-        xl: 400px,
-        xxl: 500px,
-        xxxl: 600px,
+        "xs": 100%,
+        "sm": 100px,
+        "md": 200px,
+        "lg": 300px,
+        "xl": 400px,
+        "xxl": 500px,
+        "xxxl": 600px,
     ),
     (
-        columns: 12,
-        gap: 1rem,
+        "columns": 12,
+        "gap": 1rem,
     )
 );
 @include lib.debug-grid;
@@ -126,17 +128,72 @@ body::before {
     @include lib.screen-utility-apply-properties-for-screens(
         width,
         (
-            xs: 1px,
-            sm: 2px,
+            "xs": 1px,
+            "sm": 2px,
         )
     );
     @include lib.screen-utility-apply-properties-for-min-screens(
         width,
         (
-            xs: 1px,
-            sm: 2px,
+            "xs": 1px,
+            "sm": 2px,
         )
     );
+}
+
+// endregion
+
+// region Test func module
+$input: (
+    "xs": 100%,
+    "sm": 200px,
+    "md": 300px,
+);
+
+@function double-the-size($value, $key) {
+    @return $value * 2;
+}
+
+$result: lib.func-map($input, meta.get-function("double-the-size"));
+
+.mapped-width {
+    @media screen and (min-width: 0) {
+        width: map.get($result, xs);
+    }
+
+    @media screen and (min-width: 110px) {
+        width: map.get($result, sm);
+    }
+
+    @media screen and (min-width: 210px) {
+        width: map.get($result, md);
+    }
+}
+
+$input: (
+    "xs": 100%,
+    "sm": 200px,
+    "md": 300px,
+);
+
+@function build-content($value, $key) {
+    @return $value + " @ " + $key;
+}
+
+$result: lib.func-map($input, meta.get-function("build-content"));
+
+.mapped-content {
+    @media screen and (min-width: 0) {
+        content: map.get($result, xs);
+    }
+
+    @media screen and (min-width: 110px) {
+        content: map.get($result, sm);
+    }
+
+    @media screen and (min-width: 210px) {
+        content: map.get($result, md);
+    }
 }
 
 // endregion
