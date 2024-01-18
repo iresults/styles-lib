@@ -1,8 +1,10 @@
+@use "sass:list";
 @use "sass:map";
 @use "sass:math";
-@use "config" as config;
+@use "config";
 @use "assert";
 @use "container";
+@use "screen";
 
 /// Show the grid as overlay
 ///
@@ -124,7 +126,7 @@
         $grid-breakpoints: config.$internal-screen-breakpoints;
         $container-max-widths: config.$internal-container-max-widths;
 
-        z-index: 10000;
+        z-index: 10001;
         font-family: Menlo, "Courier New", Courier, monospace;
         font-size: 9px;
         font-weight: normal;
@@ -141,17 +143,36 @@
         right: 0;
         pointer-events: none;
 
-        $smallest-label: if(
-            map.has-key($container-max-widths, "xs"),
-            "XXS",
-            "XS"
+        $screen-names: map.keys($grid-breakpoints);
+        $first-screen-name: list.nth($screen-names, 1);
+        $first-screen-breakpoint: map.get(
+            $grid-breakpoints,
+            $first-screen-name
         );
 
-        content: "#{$smallest-label} | [100%] < #{max-screen('xs')}";
+        // If there is no breakpoint starting at 0, we add a label before
+        // But this should not have happened @see styles-lib/_config.scss:14
+        @if $first-screen-breakpoint > 0 {
+            $smallest-label: if($first-screen-name == "xs", "XXS", "XS");
+            $smallest-screen-max: $first-screen-breakpoint - 0.02;
 
-        @each $screen, $max-width in $container-max-widths {
-            @media (min-width: map.get($grid-breakpoints, $screen)) {
-                content: "#{to-upper-case($screen)} | #{map-get($grid-breakpoints, $screen)} < [#{$max-width}] < #{max-screen($screen)} ";
+            content: "#{$smallest-label} | [100%] < #{$smallest-screen-max}";
+        }
+
+        @if not $first-screen-breakpoint {
+            @error "Could not find the first breakpoint";
+        }
+
+        @each $screen, $min in $grid-breakpoints {
+            @media (min-width: $min) {
+                $container-width: "?";
+                @if map.has-key($container-max-widths, $screen) {
+                    $container-width: map.get($container-max-widths, $screen);
+                }
+
+                $max: screen.max($screen);
+
+                content: "#{to-upper-case($screen)} | #{$min} < [#{$container-width}] < #{$max} ";
             }
         }
     }
