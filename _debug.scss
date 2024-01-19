@@ -166,6 +166,7 @@
         @each $screen, $min in $grid-breakpoints {
             @media (min-width: $min) {
                 $container-width: "?";
+
                 @if map.has-key($container-max-widths, $screen) {
                     $container-width: map.get($container-max-widths, $screen);
                 }
