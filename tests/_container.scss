@@ -1,0 +1,9 @@
+@use "../../styles-lib" as lib;
+
+.container {
+    @include lib.container-apply-widths;
+}
+
+.container-with-extra {
+    @include lib.container-apply-widths(20px);
+}

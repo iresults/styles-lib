@@ -1,0 +1,108 @@
+@use "sass:list";
+@use "sass:meta";
+@use "sass:map";
+@use "../../styles-lib" as lib;
+
+// region Simple function call
+$input: (
+    "xs": 100%,
+    "sm": 200px,
+    "md": 300px,
+);
+
+@function double-the-size($value, $key) {
+    @return $value * 2;
+}
+
+$result: lib.func-map($input, meta.get-function("double-the-size"));
+
+.mapped-width {
+    @media screen and (min-width: 0) {
+        width: map.get($result, xs);
+    }
+
+    @media screen and (min-width: 110px) {
+        width: map.get($result, sm);
+    }
+
+    @media screen and (min-width: 210px) {
+        width: map.get($result, md);
+    }
+}
+
+// endregion
+
+// region Function call with additional arguments (example 1)
+$input: (
+    "xs": 100%,
+    "sm": 200px,
+    "md": 300px,
+);
+
+@function build-content($value, $key, $description, $additional-arguments...) {
+    $suffix-text: list.nth($additional-arguments, 1);
+
+    @return $value + " @ " + $key + "-" + $description + " " + $suffix-text;
+}
+
+$result: lib.func-map(
+    $input,
+    meta.get-function("build-content"),
+    "screen size",
+    "(and up)"
+);
+
+.mapped-content {
+    @media screen and (min-width: 0) {
+        content: map.get($result, xs);
+    }
+
+    @media screen and (min-width: 110px) {
+        content: map.get($result, sm);
+    }
+
+    @media screen and (min-width: 210px) {
+        content: map.get($result, md);
+    }
+}
+
+// endregion
+
+// region Function call with additional arguments (example 2)
+$font-size-scaling: (
+    "xs": 1,
+    "sm": 0.5,
+    "md": 0.75,
+    "lg": 1,
+);
+$h1-font-size: 10rem;
+
+@function scale-font-size($value, $key, $font-size-to-scale) {
+    @return $value * $font-size-to-scale;
+}
+
+$h1-font-size-scaled: lib.func-map(
+    $font-size-scaling,
+    meta.get-function("scale-font-size"),
+    $h1-font-size
+);
+
+h1 {
+    @media screen and (min-width: 0) {
+        font-size: map.get($h1-font-size-scaled, xs);
+    }
+
+    @media screen and (min-width: 110px) {
+        font-size: map.get($h1-font-size-scaled, sm);
+    }
+
+    @media screen and (min-width: 210px) {
+        font-size: map.get($h1-font-size-scaled, md);
+    }
+
+    @media screen and (min-width: 310px) {
+        font-size: map.get($h1-font-size-scaled, lg);
+    }
+}
+
+// endregion

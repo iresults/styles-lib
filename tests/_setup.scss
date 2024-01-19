@@ -1,0 +1,30 @@
+@use "sass:list";
+@use "sass:meta";
+@use "sass:map";
+@use "../../styles-lib" as lib;
+
+// region Setup
+@include lib.configure(
+    (
+        "xs": 0,
+        "sm": 110px,
+        "md": 210px,
+        "lg": 310px,
+        "xl": 410px,
+        "xxl": 510px,
+        "xxxl": 610px,
+    ),
+    (
+        "xs": 100%,
+        "sm": 100px,
+        "md": 200px,
+        "lg": 300px,
+        "xl": 400px,
+        "xxl": 500px,
+        "xxxl": 600px,
+    ),
+    (
+        "columns": 12,
+        "gap": 1rem,
+    )
+);
