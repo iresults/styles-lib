@@ -323,16 +323,37 @@ body {
 
 @media screen and (min-width: 0) {
   .mapped-content {
-    content: "100% @ xs";
+    content: "100% @ xs-screen size (and up)";
   }
 }
 @media screen and (min-width: 110px) {
   .mapped-content {
-    content: "200px @ sm";
+    content: "200px @ sm-screen size (and up)";
   }
 }
 @media screen and (min-width: 210px) {
   .mapped-content {
-    content: "300px @ md";
+    content: "300px @ md-screen size (and up)";
+  }
+}
+
+@media screen and (min-width: 0) {
+  h1 {
+    font-size: 10rem;
+  }
+}
+@media screen and (min-width: 110px) {
+  h1 {
+    font-size: 5rem;
+  }
+}
+@media screen and (min-width: 210px) {
+  h1 {
+    font-size: 7.5rem;
+  }
+}
+@media screen and (min-width: 310px) {
+  h1 {
+    font-size: 10rem;
   }
 }

@@ -3,7 +3,7 @@
 
 /// Invoke $callback for each pair in the map and build a new map from the result
 ///
-/// @example scss -
+/// @example scss default usage
 ///     @use "sass:meta";
 ///
 ///     $input: (
@@ -14,12 +14,40 @@
 ///     @function double-the-size($value, $key) {
 ///         @return $value * 2;
 ///     }
-///     $result: lib.func-map($input, meta.get-function("double-the-size"));
+///     @debug lib.func-map($input, meta.get-function("double-the-size"));
+///     // ("xs": 200%, "sm": 400px, "md": 600px)
+///
+///
+/// @example scss default usage
+///     @use "sass:list";
+///     @use "sass:meta";
+///
+///     $input: (
+///         "xs": 100%,
+///         "sm": 200px,
+///         "md": 300px,
+///     );
+///
+///     // This function not only accepts $value and $key, but additional arguments
+///     @function build-content($value, $key, $description, $additional-arguments...) {
+///         $suffix-text: list.nth($additional-arguments, 1);
+///
+///         @return $value + " @ " + $key + "-" + $description + " " + $suffix-text;
+///     }
+///
+///     // The additional arguments are passed as the last arguments
+///     @debug lib.func-map(
+///         $input,
+///         meta.get-function("build-content"),
+///         "screen size",
+///         "(and up)"
+///     );
+///     // ("xs": "100% @ xs-screen size (and up)", "sm": "200px @ sm-screen size (and up)", ...)
 ///
 /// @param {Map} $input
 /// @param {Function} $callback
 /// @return {Map} Return a new map with $callback applied to each element of $input
-@function map($input, $callback) {
+@function map($input, $callback, $args...) {
     @if type-of($callback) != "function" {
         @error "Argument 'callback' must be of type 'function', '" + type-of($callback) + "' given";
     }
@@ -31,7 +59,7 @@
     $result: ();
 
     @each $key, $value in $input {
-        $mapped-value: meta.call($callback, $value, $key);
+        $mapped-value: meta.call($callback, $value, $key, $args...);
         $result: map.set($result, $key, $mapped-value);
     }
 
