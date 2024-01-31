@@ -122,7 +122,13 @@
 @mixin screen-breakpoints {
     @include assert.is-configured(config.$internal-screen-breakpoints);
 
-    body::after {
+    $selector: &;
+
+    @if not & {
+        $selector: "body::after";
+    }
+
+    @at-root #{$selector} {
         $grid-breakpoints: config.$internal-screen-breakpoints;
         $container-max-widths: config.$internal-container-max-widths;
 
