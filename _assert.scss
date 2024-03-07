@@ -46,6 +46,6 @@
 
 @mixin is-configured($internal-screen-breakpoints) {
     @if length($internal-screen-breakpoints) == 0 {
-        @error "Screen breakpoints are not configured yet";
+        @error "Screen breakpoints are not configured yet. See https://github.com/iresults/styles-lib";
     }
 }
