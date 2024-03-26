@@ -5,3 +5,9 @@ indent_size = 4
 indent_style = space
 insert_final_newline = true
 tab_width = 4
+
+[composer.json]
+indent_size = 2
+
+[package.json]
+indent_size = 2
