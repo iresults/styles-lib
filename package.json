@@ -1,0 +1,35 @@
+{
+  "name": "@iresults/styles-lib",
+  "version": "0.1.0",
+  "description": "Sass library with utilities",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "bin/test.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iresults/styles-lib.git"
+  },
+  "keywords": [
+    "scss"
+  ],
+  "contributors": [
+    {
+      "name": "Andreas Thurnheer-Meier",
+      "email": "tma@iresults.li",
+      "url": "https://www.iresults.li/"
+    },
+    {
+      "name": "Daniel Corn",
+      "email": "cod@iresults.li",
+      "url": "https://www.iresults.li"
+    }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/iresults/styles-lib/issues"
+  },
+  "homepage": "https://github.com/iresults/styles-lib#readme"
+}
