@@ -1,0 +1,10 @@
+@use "../../styles-lib" as lib;
+
+body::before {
+    --container-max-width: 20px;
+}
+
+.col-6 {
+    width: lib.columns-width(6);
+    height: lib.columns-width(4, 13px);
+}

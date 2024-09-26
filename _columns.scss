@@ -1,0 +1,39 @@
+@use "sass:map";
+@use "sass:math";
+@use "config";
+@use "assert";
+
+/// Return the width of `$columns` based on the `var(--container-max-width)`
+///
+/// @example scss simple usage
+///     @use "iresults/styles-lib" as lib;
+///
+///     // Set `--container-max-width` if not already done
+///     :root {
+///         @include lib.container-set-max-width-property($extra: null);
+///     }
+///
+///     .col-6 {
+///         width: lib.columns-width(6);
+///         height: lib.columns-width(4, 13px);
+///     }
+///
+/// @param {number} $columns   - Number of columns to span
+/// @param {number} $extra [null] - Extra width to add to the calculated value
+/// @return {calculation}      - A `calc()` expression
+@function width($columns, $extra: null) {
+    @if not map.has-key(config.$internal-grid-configuration, columns) {
+        @error "Grid columns are not configured";
+    }
+
+    $grid-columns: map.get(config.$internal-grid-configuration, columns);
+    $gutter: if(
+        map.has-key(config.$internal-grid-configuration, gap),
+        map.get(config.$internal-grid-configuration, gap),
+        0
+    );
+    $subtrahend: if($extra, calc($gutter - $extra), $gutter);
+    $column-divider: math.div($grid-columns, $columns);
+
+    @return calc((var(--container-max-width) / $column-divider - $subtrahend));
+}

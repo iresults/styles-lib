@@ -396,3 +396,12 @@ body {
     font-size: 10rem;
   }
 }
+
+body::before {
+  --container-max-width: 20px;
+}
+
+.col-6 {
+  width: calc(var(--container-max-width) / 2 - 1rem);
+  height: calc(var(--container-max-width) / 3 - (1rem - 13px));
+}
