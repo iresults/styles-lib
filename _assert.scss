@@ -44,8 +44,8 @@
     }
 }
 
-@mixin is-configured($internal-screen-breakpoints) {
-    @if list.length($internal-screen-breakpoints) == 0 {
+@mixin is-configured($map) {
+    @if list.length($map) == 0 {
         @error "Screen breakpoints are not configured yet. See https://github.com/iresults/styles-lib";
     }
 }
