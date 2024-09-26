@@ -25,8 +25,14 @@
     @include assert.is-configured(config.$internal-screen-breakpoints);
     @include assert.is-configured(config.$internal-container-max-widths);
 
-    // If the breakpoints don't contain a 0-breakpoint we set a default value here
-    @if not list.index(map.values(config.$internal-screen-breakpoints), 0) {
+    // If the breakpoints don't contain a 0-breakpoint or
+    // there is no container-max-width for the smallest screen
+    // we set a default value of 100%
+    $smallest-screen: list.nth(map.keys(config.$internal-screen-breakpoints), 1);
+    $has-breakpoint-with-zero: 0 == map.get(config.$internal-screen-breakpoints, $smallest-screen);
+    $has-container-width-for-smallest-screen: map.has-key(config.$internal-container-max-widths, $smallest-screen);
+
+    @if not $has-breakpoint-with-zero or not $has-container-width-for-smallest-screen {
         #{$property}: 100%;
     }
 

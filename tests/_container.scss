@@ -1,4 +1,5 @@
 @use "../../styles-lib" as lib;
+@use "setup";
 
 :root {
     @include lib.container-set-max-width-property($extra: null);
@@ -11,3 +12,46 @@
 .container-with-extra {
     @include lib.container-apply-widths(20px);
 }
+
+@include lib.configure(
+    (
+        "xs": 0,
+        "sm": 110px,
+        "md": 210px,
+    ),
+    (
+        "sm": 100px,
+        "md": 200px,
+    ),
+    (
+        "columns": 12,
+        "gap": 1rem,
+    )
+);
+
+.container-test-2 {
+    @include lib.container-apply-widths;
+}
+
+@include lib.configure(
+    (
+        "xs": 0,
+        "sm": 110px,
+        "md": 210px,
+    ),
+    (
+        "xs": 80vw,
+        "sm": 100px,
+        "md": 200px,
+    ),
+    (
+        "columns": 12,
+        "gap": 1rem,
+    )
+);
+
+.container-test-3 {
+    @include lib.container-apply-widths;
+}
+
+@include setup.default-test-setup;

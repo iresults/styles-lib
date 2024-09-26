@@ -203,6 +203,34 @@ body {
   }
 }
 
+.container-test-2 {
+  width: 100%;
+}
+@media (min-width: 110px) {
+  .container-test-2 {
+    width: 100px;
+  }
+}
+@media (min-width: 210px) {
+  .container-test-2 {
+    width: 200px;
+  }
+}
+
+.container-test-3 {
+  width: 80vw;
+}
+@media (min-width: 110px) {
+  .container-test-3 {
+    width: 100px;
+  }
+}
+@media (min-width: 210px) {
+  .container-test-3 {
+    width: 200px;
+  }
+}
+
 @media screen and (max-width: 209.98px) {
   body::before {
     content: "lib.screen-match(xs, sm)";
