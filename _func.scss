@@ -46,12 +46,12 @@
 /// @param {Function} $callback
 /// @return {Map} Return a new map with $callback applied to each element of $input
 @function map($input, $callback, $args...) {
-    @if type-of($callback) != "function" {
-        @error "Argument 'callback' must be of type 'function', '" + type-of($callback) + "' given";
+    @if meta.type-of($callback) != "function" {
+        @error "Argument 'callback' must be of type 'function', '" + meta.type-of($callback) + "' given";
     }
 
-    @if type-of($input) != "map" {
-        @error "Argument 'input' must be of type 'map', '" + type-of($input) + "' given";
+    @if meta.type-of($input) != "map" {
+        @error "Argument 'input' must be of type 'map', '" + meta.type-of($input) + "' given";
     }
 
     $result: ();

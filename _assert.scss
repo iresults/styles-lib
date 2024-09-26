@@ -34,7 +34,7 @@
 /// @param {Map} $map
 /// @param {String} $map-name
 @mixin starts-at-zero($map, $map-name) {
-    @if length($map) > 0 {
+    @if list.length($map) > 0 {
         $values: map.values($map);
         $first-value: list.nth($values, 1);
 
@@ -45,7 +45,7 @@
 }
 
 @mixin is-configured($internal-screen-breakpoints) {
-    @if length($internal-screen-breakpoints) == 0 {
+    @if list.length($internal-screen-breakpoints) == 0 {
         @error "Screen breakpoints are not configured yet. See https://github.com/iresults/styles-lib";
     }
 }

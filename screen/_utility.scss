@@ -1,3 +1,4 @@
+@use "sass:meta";
 @use "../screen";
 
 /// Loop through `$properties` and set the property's value for each screen size
@@ -35,16 +36,12 @@
 /// @param {String} $property-name  CSS property to set
 /// @param {Map}    $properties     A map of screen-size keywords to properties
 /// @param {Bool}   $reverse        If TRUE, multiply the value with -1
-@mixin apply-properties-for-screens(
-    $property-name,
-    $properties,
-    $reverse: false
-) {
-    @if type-of($property-name) != string {
+@mixin apply-properties-for-screens($property-name, $properties, $reverse: false) {
+    @if meta.type-of($property-name) != string {
         @error "Expected argument $property-name to be a string. '#{type-of($property-name)}' given";
     }
 
-    @if type-of($properties) != map {
+    @if meta.type-of($properties) != map {
         @error "Expected argument $properties to be a map. '#{type-of($properties)}' given";
     }
 
@@ -88,17 +85,13 @@
 /// @param {String} $property-name  CSS property to set
 /// @param {Map}    $properties     A map of minimum screen-size keywords to properties
 /// @param {Bool}   $reverse        If TRUE, multiply the value with -1
-@mixin apply-properties-for-min-screens(
-    $property-name,
-    $properties,
-    $reverse: false
-) {
-    @if type-of($property-name) != string and type-of($property-name) != list {
-        @error "Expected argument $property-name to be a string. '#{type-of($property-name)}' given";
+@mixin apply-properties-for-min-screens($property-name, $properties, $reverse: false) {
+    @if meta.type-of($property-name) != string and meta.type-of($property-name) != list {
+        @error "Expected argument $property-name to be a string. '#{meta.type-of($property-name)}' given";
     }
 
-    @if type-of($properties) != map {
-        @error "Expected argument $properties to be a map. '#{type-of($properties)}' given";
+    @if meta.type-of($properties) != map {
+        @error "Expected argument $properties to be a map. '#{meta.type-of($properties)}' given";
     }
 
     @each $screen, $value in $properties {

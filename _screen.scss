@@ -1,5 +1,6 @@
-// Some of the following responsive mixins are taken from Rafal Bromirski (http://paranoida.com/)
+// Some of the following responsive mixins are taken from Rafal Bromirski
 @use "sass:map";
+@use "sass:meta";
 @use "sass:list";
 @use "config";
 @use "assert";
@@ -50,20 +51,20 @@
     $concrete-res-max: 0;
 
     @if $res-max == none {
-        @if type-of($res-min) == number {
+        @if meta.type-of($res-min) == number {
             @error "If $res-max is not given $res-min must be a screen-size keyword (e.g. 'sm')";
         }
 
         $concrete-res-min: -internal-min($res-min);
         $concrete-res-max: -internal-max($res-min);
     } @else {
-        @if type-of($res-min) == number {
+        @if meta.type-of($res-min) == number {
             $concrete-res-min: $res-min;
         } @else {
             $concrete-res-min: -internal-min($res-min);
         }
 
-        @if type-of($res-max) == number {
+        @if meta.type-of($res-max) == number {
             $concrete-res-max: $res-max;
         } @else {
             $concrete-res-max: -internal-max($res-max);
@@ -85,7 +86,7 @@
 
     $concrete-res: $res;
 
-    @if type-of($res) != number {
+    @if meta.type-of($res) != number {
         $concrete-res: -internal-max($res);
     }
 
@@ -139,7 +140,7 @@
 
     $concrete-res: $res;
 
-    @if type-of($res) != number {
+    @if meta.type-of($res) != number {
         $concrete-res: -internal-min($res);
 
         @if not $concrete-res {
@@ -260,11 +261,7 @@
         @error "Screen breakpoint `#{$screen-size}` not found in grid-breakpoints";
     }
 
-    @return if(
-        $n < length($breakpoint-names),
-        list.nth($breakpoint-names, $n + 1),
-        null
-    );
+    @return if($n < list.length($breakpoint-names), list.nth($breakpoint-names, $n + 1), null);
 }
 
 /// Private version of the function to allow to call it from within this module
@@ -292,10 +289,7 @@
         @return -internal-min($next-screen-size) - 0.02;
     }
 
-    $last-registered-screen: list.nth(
-        map.keys(config.$internal-screen-breakpoints),
-        -1
-    );
+    $last-registered-screen: list.nth(map.keys(config.$internal-screen-breakpoints), -1);
 
     @if $screen-size == $last-registered-screen {
         @return 1000000px;
