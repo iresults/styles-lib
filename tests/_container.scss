@@ -1,5 +1,9 @@
 @use "../../styles-lib" as lib;
 
+:root {
+    @include lib.container-set-max-width-property($extra: null);
+}
+
 .container {
     @include lib.container-apply-widths;
 }

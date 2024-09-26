@@ -106,6 +106,45 @@ body {
   line-height: 16;
 }
 
+:root {
+  --container-max-width: 100%;
+}
+@media (min-width: 0) {
+  :root {
+    --container-max-width: 100%;
+  }
+}
+@media (min-width: 110px) {
+  :root {
+    --container-max-width: 100px;
+  }
+}
+@media (min-width: 210px) {
+  :root {
+    --container-max-width: 200px;
+  }
+}
+@media (min-width: 310px) {
+  :root {
+    --container-max-width: 300px;
+  }
+}
+@media (min-width: 410px) {
+  :root {
+    --container-max-width: 400px;
+  }
+}
+@media (min-width: 510px) {
+  :root {
+    --container-max-width: 500px;
+  }
+}
+@media (min-width: 610px) {
+  :root {
+    --container-max-width: 600px;
+  }
+}
+
 .container {
   width: 100%;
 }
