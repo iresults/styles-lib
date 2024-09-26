@@ -71,9 +71,16 @@
         }
     }
 
-    @media screen and (min-width: $concrete-res-min) and (max-width: $concrete-res-max) {
-        // -iresults-debug: "@media screen and (min-width: #{$concrete-res-min}) and (max-width: #{$concrete-res-max})";
-        @content;
+    @if $concrete-res-min > 0 {
+        @media screen and (min-width: $concrete-res-min) and (max-width: $concrete-res-max) {
+            // -iresults-debug: "@media screen and (min-width: #{$concrete-res-min}) and (max-width: #{$concrete-res-max})";
+            @content;
+        }
+    } @else {
+        @media screen and (max-width: $concrete-res-max) {
+            // -iresults-debug: "@media screen and (min-width: #{$concrete-res-min}) and (max-width: #{$concrete-res-max})";
+            @content;
+        }
     }
 }
 
@@ -148,8 +155,14 @@
         }
     }
 
-    @media screen and (min-width: $concrete-res) {
-        @content;
+    @if $concrete-res > 0 {
+        @media screen and (min-width: $concrete-res) {
+            @content;
+        }
+    } @else {
+        @media screen {
+            @content;
+        }
     }
 }
 
@@ -157,8 +170,16 @@
 ///
 /// @content Wrapped into media query
 @mixin min-xs() {
-    @media screen and (min-width: -internal-min(xs)) {
-        @content;
+    $min-width: -internal-min(xs);
+
+    @if $min-width > 0 {
+        @media screen and (min-width: -internal-min(xs)) {
+            @content;
+        }
+    } @else {
+        @media screen {
+            @content;
+        }
     }
 }
 
@@ -239,11 +260,12 @@
     // stylelint-disable
     @media only screen and (-webkit-min-device-pixel-ratio: $ratio),
     only screen and (min--moz-device-pixel-ratio: $ratio),
-    only screen and (-o-min-device-pixel-ratio: #{$ratio}/1),
+    only screen and (-o-min-device-pixel-ratio: #{$ratio}#{"/"}1),
     only screen and (min-resolution: #{round($ratio*96)}dpi),
     only screen and (min-resolution: #{$ratio}dppx) {
         @content;
     }
+
     // stylelint-enable
 }
 
