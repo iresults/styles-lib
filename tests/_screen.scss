@@ -88,8 +88,41 @@ body::before {
             "sm": 2px,
         )
     );
+
+    @include lib.screen-utility-apply-properties-for-screens(
+        padding-left padding-right,
+        (
+            "xs": 1px,
+            "sm": 2px,
+        )
+    );
+
+    @include lib.screen-utility-apply-properties-for-screens(
+        (margin-left, margin-right),
+        (
+            "xs": 1px,
+            "sm": 2px,
+        )
+    );
+
     @include lib.screen-utility-apply-properties-for-min-screens(
         width,
+        (
+            "xs": 1px,
+            "sm": 2px,
+        )
+    );
+
+    @include lib.screen-utility-apply-properties-for-min-screens(
+        padding-left padding-right,
+        (
+            "xs": 1px,
+            "sm": 2px,
+        )
+    );
+
+    @include lib.screen-utility-apply-properties-for-min-screens(
+        (margin-left, margin-right),
         (
             "xs": 1px,
             "sm": 2px,

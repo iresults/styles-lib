@@ -1,4 +1,5 @@
 @use "sass:meta";
+@use "sass:list";
 @use "../screen";
 
 /// Loop through `$properties` and set the property's value for each screen size
@@ -33,16 +34,16 @@
 ///         @include lib.screen-utility-apply-properties-for-screens(margin-top, $header-heights, true);
 ///     }
 ///
-/// @param {String} $property-name  CSS property to set
-/// @param {Map}    $properties     A map of screen-size keywords to properties
-/// @param {Bool}   $reverse        If TRUE, multiply the value with -1
-@mixin apply-properties-for-screens($property-name, $properties, $reverse: false) {
-    @if meta.type-of($property-name) != string {
-        @error "Expected argument $property-name to be a string. '#{type-of($property-name)}' given";
+/// @param {String|List} $property-names  CSS property to set
+/// @param {Map}         $properties      A map of screen-size keywords to properties
+/// @param {Bool}        $reverse         If TRUE, multiply the value with -1
+@mixin apply-properties-for-screens($property-names, $properties, $reverse: false) {
+    @if meta.type-of($property-names) != string and meta.type-of($property-names) != list {
+        @error "Expected argument $property-names to be a string or list of strings. '#{meta.type-of($property-names)}' given";
     }
 
     @if meta.type-of($properties) != map {
-        @error "Expected argument $properties to be a map. '#{type-of($properties)}' given";
+        @error "Expected argument $properties to be a map. '#{meta.type-of($properties)}' given";
     }
 
     @each $screen, $value in $properties {
@@ -51,7 +52,9 @@
                 $value: -1 * $value;
             }
 
-            #{$property-name}: $value;
+            @each $property-name in $property-names {
+                #{$property-name}: $value;
+            }
         }
     }
 }
@@ -82,12 +85,12 @@
 ///         @include lib.screen-utility-apply-properties-for-min-screens(margin-top, $header-heights, true);
 ///     }
 ///
-/// @param {String} $property-name  CSS property to set
-/// @param {Map}    $properties     A map of minimum screen-size keywords to properties
-/// @param {Bool}   $reverse        If TRUE, multiply the value with -1
-@mixin apply-properties-for-min-screens($property-name, $properties, $reverse: false) {
-    @if meta.type-of($property-name) != string and meta.type-of($property-name) != list {
-        @error "Expected argument $property-name to be a string. '#{meta.type-of($property-name)}' given";
+/// @param {String|List} $property-names  CSS property to set
+/// @param {Map}         $properties      A map of minimum screen-size keywords to properties
+/// @param {Bool}        $reverse         If TRUE, multiply the value with -1
+@mixin apply-properties-for-min-screens($property-names, $properties, $reverse: false) {
+    @if meta.type-of($property-names) != string and meta.type-of($property-names) != list {
+        @error "Expected argument $property-names to be a string or list of strings. '#{meta.type-of($property-names)}' given";
     }
 
     @if meta.type-of($properties) != map {
@@ -100,10 +103,8 @@
                 $value: -1 * $value;
             }
 
-            $property-name-list: $property-name;
-
-            @each $property-key in $property-name-list {
-                #{$property-key}: $value;
+            @each $property-name in $property-names {
+                #{$property-name}: $value;
             }
         }
     }
