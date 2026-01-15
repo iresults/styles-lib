@@ -1,6 +1,7 @@
 @use "sass:list";
 @use "sass:map";
 @use "sass:math";
+@use "sass:string";
 @use "config";
 @use "assert";
 @use "container";
@@ -42,17 +43,11 @@
         pointer-events: none;
 
         @if $debug-grid-columns == "auto" {
-            $debug-grid-columns: map.get(
-                config.$internal-grid-configuration,
-                columns
-            );
+            $debug-grid-columns: map.get(config.$internal-grid-configuration, columns);
         }
 
         @if $debug-gutter-width == "auto" {
-            $debug-gutter-width: map.get(
-                config.$internal-grid-configuration,
-                gap
-            );
+            $debug-gutter-width: map.get(config.$internal-grid-configuration, gap);
         }
 
         $ggh: $debug-gutter-width * 0.5;
@@ -151,10 +146,7 @@
 
         $screen-names: map.keys($grid-breakpoints);
         $first-screen-name: list.nth($screen-names, 1);
-        $first-screen-breakpoint: map.get(
-            $grid-breakpoints,
-            $first-screen-name
-        );
+        $first-screen-breakpoint: map.get($grid-breakpoints, $first-screen-name);
 
         // If there is no breakpoint starting at 0, we add a label before
         // But this should not have happened @see styles-lib/_config.scss:14
@@ -179,7 +171,7 @@
 
                 $max: screen.max($screen);
 
-                content: "#{to-upper-case($screen)} | #{$min} < [#{$container-width}] < #{$max} ";
+                content: "#{string.to-upper-case($screen)} | #{$min} < [#{$container-width}] < #{$max} ";
             }
         }
     }

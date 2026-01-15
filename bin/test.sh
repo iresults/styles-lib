@@ -10,7 +10,12 @@ cd "$PROJECT_DIR" || exit 2
 
 output_path=$(mktemp)
 
-sass --no-source-map --no-error-css tests/test.scss "$output_path"
+sass \
+    --no-source-map \
+    --no-error-css \
+    --silence-deprecation=if-function \
+    tests/test.scss \
+    "$output_path"
 
 if cmp -s "tests/expected.css" "$output_path"; then
     rm "$output_path"
