@@ -5,11 +5,7 @@ $internal-screen-breakpoints: ();
 $internal-container-max-widths: ();
 $internal-grid-configuration: ();
 
-@mixin configure(
-    $screen-breakpoints,
-    $container-max-widths,
-    $grid-configuration
-) {
+@mixin configure($screen-breakpoints, $container-max-widths, $grid-configuration) {
     @include assert.ascending($screen-breakpoints, "$grid-breakpoints");
     @include assert.starts-at-zero($screen-breakpoints, "$grid-breakpoints");
 
