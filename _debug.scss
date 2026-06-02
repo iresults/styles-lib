@@ -79,9 +79,9 @@
                 transparent 1px,
                 /// ␣  <ggh>
                 transparent 1px,
-                transparent ($ggh - 1px),
+                transparent calc(#{$ggh} - 1px),
                 /// ␣  <ggh>  |
-                $gutter-color ($ggh - 1px),
+                $gutter-color calc(#{$ggh} - 1px),
                 $gutter-color $ggh,
                 /// ␣  <ggh>  |   <column>
                 $column-color $ggh,
