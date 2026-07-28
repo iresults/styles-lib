@@ -1,0 +1,7 @@
+@use "../../styles-lib" as lib;
+
+:root {
+    --gap: #{lib.config-get("grid-configuration", "gap")};
+    --screen-breakpoint-md: #{lib.config-get("screen-breakpoints", "md")};
+    --container-max-width-md: #{lib.config-get("container-max-widths", "md")};
+}

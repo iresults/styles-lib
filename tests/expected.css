@@ -461,3 +461,9 @@ body::before {
   width: calc(var(--container-max-width) / 2 - 1rem);
   height: calc(var(--container-max-width) / 3 - (1rem - 13px));
 }
+
+:root {
+  --gap: 1rem;
+  --screen-breakpoint-md: 210px;
+  --container-max-width-md: 200px;
+}

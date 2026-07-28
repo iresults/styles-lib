@@ -1,4 +1,4 @@
-@forward "config" show configure;
+@forward "config" show configure, config-get;
 @forward "converter";
 @forward "unit" as unit-*;
 @forward "container" as container-*;

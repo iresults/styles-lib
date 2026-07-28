@@ -1,4 +1,5 @@
 @use "sass:map";
+@use "sass:string";
 @use "assert" as assert;
 
 $internal-screen-breakpoints: ();
@@ -21,4 +22,16 @@ $internal-grid-configuration: ();
     }
 
     $internal-grid-configuration: $grid-configuration !global;
+}
+
+@function config-get($set, $key) {
+    @if $set == "screen-breakpoints" {
+        @return map.get($internal-screen-breakpoints, $key);
+    } @else if $set == "container-max-widths" {
+        @return map.get($internal-container-max-widths, $key);
+    } @else if $set == "grid-configuration" {
+        @return map.get($internal-grid-configuration, $key);
+    }
+
+    @error "Invalid set '#{$set}'";
 }
