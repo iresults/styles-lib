@@ -24,6 +24,17 @@ $internal-grid-configuration: ();
     $internal-grid-configuration: $grid-configuration !global;
 }
 
+/// Retrieve a configuration value from one of the configuration sets
+///
+/// @example scss get the configured gap
+///
+///     :root {
+///         --gap: #{lib.config-get("grid-configuration", "gap")};
+///     }
+///
+/// @param {String} $set One of "grid-configuration", "screen-breakpoints", "container-max-widths"
+/// @param {String} $key Key inside the [$set]
+/// @return {*} Return the configured value
 @function config-get($set, $key) {
     @if $set == "screen-breakpoints" {
         @return map.get($internal-screen-breakpoints, $key);
